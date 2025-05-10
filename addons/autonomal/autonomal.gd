@@ -29,11 +29,16 @@ func _enter_tree() -> void:
 func _exit_tree() -> void:
   remove_tool_menu_item(MENU_ITEM)
 
+# generate all canvas textures according to the configurations
 func generate_all() -> void:
   var textures = scan("res://") # TODO: config scan pathes
   for txt in textures:
     generate(txt)
 
+# scan the given path to get all image files
+# that have corresponding normal maps
+# path: String, the given path to be scanned
+# return: Array[String], an array of images that have normal maps
 func scan(path: String) -> Array[String]:
   var queue = [path]
   var res: Array[String] = []
@@ -58,7 +63,10 @@ func scan(path: String) -> Array[String]:
   
   return res
 
-# return empty string if file is not a valid texture file
+# compute the normal map file name
+# return empty string if the given file is not a valid texture file
+# file: String, the given diffuse file
+# return: String, the corresponding normal map file name
 func get_normal_map(file: String) -> String:
   var basename = file.get_basename()
   var ext = file.get_extension()
@@ -68,6 +76,9 @@ func get_normal_map(file: String) -> String:
   else:
     return basename + normal_suffix + "." + ext
 
+# generate the canvas texture by the given diffuse texture
+# and normal map
+# it assumes that both files exist
 func generate(file: String) -> void:
   var basename = file.get_basename()
   var normal_map = get_normal_map(file)
