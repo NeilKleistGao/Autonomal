@@ -51,7 +51,7 @@ func scan(path: String) -> Array[String]:
     dir.list_dir_begin()
     var filename = dir.get_next()
     while filename != "":
-      var full_path = path.path_join(filename)
+      var full_path = cur.path_join(filename)
       if dir.current_is_dir():
         queue.push_back(full_path)
       else:
